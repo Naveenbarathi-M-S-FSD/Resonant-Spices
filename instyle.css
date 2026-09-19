@@ -225,6 +225,13 @@ img {
     min-width: 0;
     display: contents;
 }
+#rvid{
+    width: 100%;
+    height: auto;
+    border: solid 3px #51d16b;
+    border-radius: 1.5em;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+} 
 .vdo {
     width: 100%;
     min-width: 0;
