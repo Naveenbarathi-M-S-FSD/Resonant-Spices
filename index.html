@@ -64,9 +64,14 @@
              <!-- <img src="images/hilltokitchen1.jpeg" alt="" > -->
 
              <!-- Video tag!! -->
-              <video controls preload="metadata" alt="Video" id="rvid">
+                            <video controls muted playsinline preload="metadata" id="rvid">
                 <source src="images/hilltokitchen2.mp4">
               </video>
+                        <div class="audio-language" role="group" aria-label="Audio language">
+                                <button type="button" class="audio-language-button" data-audio-src="images/hilltokitchen2-english.m4a" aria-pressed="true">English</button>
+                                <button type="button" class="audio-language-button" data-audio-src="images/hilltokitchen2-tamil.m4a" aria-pressed="false">Tamil</button>
+                        </div>
+                        <audio id="r-audio" preload="metadata" src="images/hilltokitchen2-english.m4a" aria-label="Video audio"></audio>
         </div>
              <div id="vide-exp" class="vdo">
             <h2>From the hills to your kitchen</h2>
@@ -146,6 +151,46 @@
     </footer>
      
 
-    
+    <script>
+        const videoPlayer = document.getElementById("rvid");
+        const audioPlayer = document.getElementById("r-audio");
+        const languageButtons = document.querySelectorAll(".audio-language-button");
+
+        function syncAudioPosition() {
+            if (audioPlayer.readyState >= HTMLMediaElement.HAVE_METADATA &&
+                Math.abs(audioPlayer.currentTime - videoPlayer.currentTime) > 0.25) {
+                audioPlayer.currentTime = videoPlayer.currentTime;
+            }
+        }
+
+        videoPlayer.addEventListener("play", () => {
+            syncAudioPosition();
+            audioPlayer.playbackRate = videoPlayer.playbackRate;
+            audioPlayer.play().catch(() => {});
+        });
+        videoPlayer.addEventListener("pause", () => audioPlayer.pause());
+        videoPlayer.addEventListener("seeking", syncAudioPosition);
+        videoPlayer.addEventListener("timeupdate", syncAudioPosition);
+        videoPlayer.addEventListener("ratechange", () => {
+            audioPlayer.playbackRate = videoPlayer.playbackRate;
+        });
+        videoPlayer.addEventListener("ended", () => audioPlayer.pause());
+
+        languageButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const shouldPlay = !videoPlayer.paused && !videoPlayer.ended;
+                languageButtons.forEach((option) => {
+                    option.setAttribute("aria-pressed", String(option === button));
+                });
+                audioPlayer.src = button.dataset.audioSrc;
+                audioPlayer.load();
+                audioPlayer.addEventListener("loadedmetadata", syncAudioPosition, { once: true });
+                audioPlayer.playbackRate = videoPlayer.playbackRate;
+                if (shouldPlay) {
+                    audioPlayer.play().catch(() => {});
+                }
+            });
+        });
+    </script>
 </body>
 </html>

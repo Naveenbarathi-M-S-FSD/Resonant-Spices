@@ -223,7 +223,9 @@ img {
 #video{
     width: 100%;
     min-width: 0;
-    display: contents;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 #rvid{
     width: 100%;
@@ -232,6 +234,34 @@ img {
     border-radius: 1.5em;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 } 
+.audio-language {
+    display: inline-flex;
+    align-self: flex-start;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid #b8c8bb;
+    border-radius: 0.5rem;
+    background: #f3f7f2;
+}
+.audio-language-button {
+    min-height: 2.5rem;
+    padding: 0.45rem 1rem;
+    border: 0;
+    border-radius: 0.3rem;
+    background: transparent;
+    color: #194b2c;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.audio-language-button[aria-pressed="true"] {
+    background: #0f5129;
+    color: #fff;
+}
+.audio-language-button:focus-visible {
+    outline: 3px solid #e5a93d;
+    outline-offset: 2px;
+}
 .vdo {
     width: 100%;
     min-width: 0;
